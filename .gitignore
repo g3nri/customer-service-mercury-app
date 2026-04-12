@@ -2,18 +2,16 @@ target/
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
-.kotlin
 
-### IntelliJ IDEA ###
-.idea/modules.xml
-.idea/jarRepositories.xml
-.idea/compiler.xml
-.idea/libraries/
-*.iws
+*.class
+*.log
+
+.idea/
 *.iml
+*.iws
 *.ipr
+out/
 
-### Eclipse ###
 .apt_generated
 .classpath
 .factorypath
@@ -22,7 +20,6 @@ target/
 .springBeans
 .sts4-cache
 
-### NetBeans ###
 /nbproject/private/
 /nbbuild/
 /dist/
@@ -32,8 +29,17 @@ build/
 !**/src/main/**/build/
 !**/src/test/**/build/
 
-### VS Code ###
 .vscode/
 
-### Mac OS ###
 .DS_Store
+Thumbs.db
+
+logs/
+*.tmp
+*.swp
+
+.env
+.env.*
+application-local.properties
+
+.kotlin/
