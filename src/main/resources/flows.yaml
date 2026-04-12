@@ -1,0 +1,5 @@
+flows:
+  - 'create-customer.yml'
+  - 'get-customer.yml'
+
+location: 'classpath:/flows/'
