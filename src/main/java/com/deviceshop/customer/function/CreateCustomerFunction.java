@@ -16,13 +16,6 @@ public class CreateCustomerFunction implements TypedLambdaFunction<Map<String, O
         String name = input.get("name") == null ? null : input.get("name").toString();
         String email = input.get("email") == null ? null : input.get("email").toString();
 
-        if (name == null || name.isBlank()) {
-            throw new IllegalArgumentException("Field 'name' must not be blank");
-        }
-        if (email == null || email.isBlank()) {
-            throw new IllegalArgumentException("Field 'email' must not be blank");
-        }
-
         Customer customer = CustomerStore.save(name, email);
 
         Map<String, Object> result = new LinkedHashMap<>();
