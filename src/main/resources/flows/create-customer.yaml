@@ -16,7 +16,38 @@ tasks:
     description: 'Validate customer input'
     execution: 'sequential'
     next:
+      - 'customer.check.email'
+
+  - input:
+      - 'model.email -> email'
+    process: 'customer.check.email'
+    output:
+      - 'result.email -> model.email'
+      - 'result.exists -> model.emailExists'
+    description: 'Check customer email'
+    execution: 'sequential'
+    next:
+      - 'customer.route.by.email'
+
+  - input:
+      - 'model.emailExists -> exists'
+    process: 'customer.route.by.email'
+    output:
+      - 'result -> decision'
+    description: 'Route by email existence'
+    execution: 'decision'
+    next:
+      - 'customer.duplicate.error'
       - 'customer.create'
+
+  - input:
+      - 'model.email -> email'
+    process: 'customer.duplicate.error'
+    output:
+      - 'result -> output.body'
+      - 'int(400) -> output.status'
+    description: 'Duplicate email error'
+    execution: 'end'
 
   - input:
       - 'model.name -> name'
