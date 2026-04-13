@@ -15,8 +15,6 @@ public class CustomerStore {
     }
 
     public static Customer save(String name, String email) {
-        validateUniqueEmail(email);
-
         Long id = ID_GENERATOR.getAndIncrement();
         Customer customer = new Customer(id, name, email);
         STORAGE.put(id, customer);
@@ -27,13 +25,9 @@ public class CustomerStore {
         return STORAGE.get(id);
     }
 
-    private static void validateUniqueEmail(String email) {
-        boolean exists = STORAGE.values().stream()
+    public static boolean existsByEmail(String email) {
+        return STORAGE.values().stream()
                 .anyMatch(customer -> customer.getEmail() != null
                         && customer.getEmail().equalsIgnoreCase(email));
-
-        if (exists) {
-            throw new IllegalArgumentException("Customer with email " + email + " already exists");
-        }
     }
 }
