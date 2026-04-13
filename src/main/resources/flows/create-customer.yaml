@@ -1,0 +1,43 @@
+flow:
+  id: 'create-customer'
+  description: 'Create customer flow'
+  ttl: 10s
+
+first.task: 'customer.validate'
+
+tasks:
+  - input:
+      - 'input.body.name -> name'
+      - 'input.body.email -> email'
+    process: 'customer.validate'
+    output:
+      - 'result.name -> model.name'
+      - 'result.email -> model.email'
+    description: 'Validate customer input'
+    execution: 'sequential'
+    next:
+      - 'customer.create'
+
+  - input:
+      - 'model.name -> name'
+      - 'model.email -> email'
+    process: 'customer.create'
+    output:
+      - 'result.id -> model.id'
+      - 'result.name -> model.name'
+      - 'result.email -> model.email'
+    description: 'Save customer'
+    execution: 'sequential'
+    next:
+      - 'customer.response'
+
+  - input:
+      - 'model.id -> id'
+      - 'model.name -> name'
+      - 'model.email -> email'
+    process: 'customer.response'
+    output:
+      - 'result -> output.body'
+      - 'int(201) -> output.status'
+    description: 'Build response'
+    execution: 'end'
