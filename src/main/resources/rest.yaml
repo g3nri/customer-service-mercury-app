@@ -1,14 +1,14 @@
 rest:
   - service: "http.flow.adapter"
-    methods: ['POST']
+    methods: [POST]
     url: "/api/customers"
-    flow: 'create-customer'
+    flow: "create-customer"
     timeout: 10s
     tracing: true
 
   - service: "http.flow.adapter"
-    methods: ['GET']
+    methods: [GET]
     url: "/api/customers/{id}"
-    flow: 'get-customer'
+    flow: "get-customer"
     timeout: 10s
     tracing: true
