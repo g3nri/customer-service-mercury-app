@@ -1,0 +1,36 @@
+plugins {
+    id 'java'
+    id 'application'
+}
+
+group = 'com.deviceshop'
+version = '1.0-SNAPSHOT'
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
+    }
+}
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+}
+
+ext {
+    mercuryVersion = '4.4.4'
+}
+
+dependencies {
+    implementation "org.platformlambda:platform-core:${mercuryVersion}"
+    implementation "org.platformlambda:rest-spring-3:${mercuryVersion}"
+    implementation "org.platformlambda:event-script-engine:${mercuryVersion}"
+}
+
+application {
+    mainClass = 'com.deviceshop.customer.MainApp'
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
+}
