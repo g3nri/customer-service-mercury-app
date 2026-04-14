@@ -1,9 +1,20 @@
 package com.deviceshop.customer;
 
-import org.platformlambda.core.system.AppStarter;
+import org.platformlambda.core.models.EntryPoint;
+import org.platformlambda.core.system.AutoStart;
 
-public class MainApp {
-    public static void main(String[] args) throws Exception {
-        AppStarter.main(args);
+import org.platformlambda.core.annotations.MainApplication;
+
+@MainApplication
+public class MainApp implements EntryPoint {
+
+    public static void main(String[] args) {
+        AutoStart.main(args);
+    }
+
+    @Override
+    public void start(String[] args) {
+        System.out.println("Customer Mercury app started");
     }
 }
+
