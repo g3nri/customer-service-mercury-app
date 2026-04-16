@@ -2,14 +2,26 @@ flow:
   id: 'get-customer'
   description: 'Get customer by id flow'
   ttl: 10s
+  exception: 'v1.error.handler'
 
-first.task: 'customer.get'
+first.task: 'v1.get.customer'
 
 tasks:
   - input:
       - 'input.path_parameter.id -> id'
-    process: 'customer.get'
+    process: 'v1.get.customer'
     output:
       - 'result -> output.body'
     description: 'Get customer by id'
+    execution: 'end'
+
+  - input:
+      - 'error.code -> status'
+      - 'error.message -> message'
+      - 'error.stack -> stack'
+    process: 'v1.error.handler'
+    output:
+      - 'result.status -> output.status'
+      - 'result -> output.body'
+    description: 'Handle errors'
     execution: 'end'

@@ -2,57 +2,37 @@ flow:
   id: 'create-customer'
   description: 'Create customer flow'
   ttl: 10s
+  exception: 'v1.error.handler'
 
-first.task: 'customer.validate'
+first.task: 'v1.validate.customer'
 
 tasks:
   - input:
       - 'input.body.name -> name'
       - 'input.body.email -> email'
-    process: 'customer.validate'
+    process: 'v1.validate.customer'
     output:
       - 'result.name -> model.name'
       - 'result.email -> model.email'
     description: 'Validate customer input'
     execution: 'sequential'
     next:
-      - 'customer.check.email'
+      - 'v1.check.customer.email'
 
   - input:
       - 'model.email -> email'
-    process: 'customer.check.email'
+    process: 'v1.check.customer.email'
     output:
       - 'result.email -> model.email'
-      - 'result.exists -> model.emailExists'
-    description: 'Check customer email'
+    description: 'Check customer email uniqueness'
     execution: 'sequential'
     next:
-      - 'customer.route.by.email'
-
-  - input:
-      - 'model.emailExists -> exists'
-    process: 'customer.route.by.email'
-    output:
-      - 'result -> decision'
-    description: 'Route by email existence'
-    execution: 'decision'
-    next:
-      - 'customer.duplicate.error'
-      - 'customer.create'
-
-  - input:
-      - 'model.email -> email'
-    process: 'customer.duplicate.error'
-    output:
-      - 'result -> output.body'
-      - 'int(400) -> output.status'
-    description: 'Duplicate email error'
-    execution: 'end'
+      - 'v1.create.customer'
 
   - input:
       - 'model.name -> name'
       - 'model.email -> email'
-    process: 'customer.create'
+    process: 'v1.create.customer'
     output:
       - 'result.id -> model.id'
       - 'result.name -> model.name'
@@ -60,15 +40,26 @@ tasks:
     description: 'Save customer'
     execution: 'sequential'
     next:
-      - 'customer.response'
+      - 'v1.customer.response'
 
   - input:
       - 'model.id -> id'
       - 'model.name -> name'
       - 'model.email -> email'
-    process: 'customer.response'
+    process: 'v1.customer.response'
     output:
       - 'result -> output.body'
       - 'int(201) -> output.status'
     description: 'Build response'
+    execution: 'end'
+
+  - input:
+      - 'error.code -> status'
+      - 'error.message -> message'
+      - 'error.stack -> stack'
+    process: 'v1.error.handler'
+    output:
+      - 'result.status -> output.status'
+      - 'result -> output.body'
+    description: 'Handle errors'
     execution: 'end'
