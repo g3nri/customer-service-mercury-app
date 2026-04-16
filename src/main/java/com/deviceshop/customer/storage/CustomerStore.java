@@ -1,6 +1,6 @@
 package com.deviceshop.customer.storage;
 
-import com.deviceshop.customer.model.Customer;
+import com.deviceshop.customer.models.Customer;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
