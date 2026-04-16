@@ -1,16 +1,22 @@
 package com.deviceshop.customer.tasks;
 
 import com.deviceshop.customer.models.Customer;
-import com.deviceshop.customer.storage.CustomerStore;
+import com.deviceshop.customer.storage.CustomerRepository;
+import org.platformlambda.core.annotations.KernelThreadRunner;
 import org.platformlambda.core.annotations.PreLoad;
 import org.platformlambda.core.exception.AppException;
 import org.platformlambda.core.models.TypedLambdaFunction;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
 
 @PreLoad(route = "v1.get.customer", instances = 10)
+@KernelThreadRunner
 public class GetCustomer implements TypedLambdaFunction<Map<String, Object>, Map<String, Object>> {
+
+    @Autowired
+    private CustomerRepository customerRepository;
 
     @Override
     public Map<String, Object> handleEvent(Map<String, String> headers, Map<String, Object> input, int instance) throws AppException {
@@ -20,7 +26,7 @@ public class GetCustomer implements TypedLambdaFunction<Map<String, Object>, Map
         }
 
         Long id = Long.parseLong(rawId.toString());
-        Customer customer = CustomerStore.findById(id);
+        Customer customer = customerRepository.findById(id).orElse(null);
 
         if (customer == null) {
             throw new AppException(404, "Customer with id " + id + " not found");
