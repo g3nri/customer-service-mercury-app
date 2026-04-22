@@ -1,8 +1,10 @@
 package com.deviceshop.customer.exceptions;
 
-public class CustomerAlreadyExistException extends RuntimeException {
+import org.platformlambda.core.exception.AppException;
+
+public class CustomerAlreadyExistException extends AppException {
 
     public CustomerAlreadyExistException(String email) {
-        super("Customer with email " + email + " already exists");
+        super(409, "Customer with email " + email + " already exists");
     }
 }
