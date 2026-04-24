@@ -24,4 +24,3 @@ logs/
 .env.*
 application-local.properties
 
-.kotlin/
