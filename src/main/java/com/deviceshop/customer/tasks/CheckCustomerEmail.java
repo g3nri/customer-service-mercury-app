@@ -18,7 +18,7 @@ public class CheckCustomerEmail implements TypedLambdaFunction<Map<String, Objec
 
     @Override
     public Map<String, Object> handleEvent(Map<String, String> headers, Map<String, Object> input, int instance) {
-        String email = input.get("email") == null ? null : input.get("email").toString();
+        String email = (String) input.get("email");
 
         if (customerRepository.existsByEmailIgnoreCase(email)) {
             throw new CustomerAlreadyExistException(email);

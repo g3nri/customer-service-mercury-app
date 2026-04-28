@@ -19,8 +19,8 @@ public class CreateCustomer implements TypedLambdaFunction<Map<String, Object>, 
 
     @Override
     public Map<String, Object> handleEvent(Map<String, String> headers, Map<String, Object> input, int instance) {
-        String name = input.get("name") == null ? null : input.get("name").toString();
-        String email = input.get("email") == null ? null : input.get("email").toString();
+        String name = (String) input.get("name");
+        String email = (String) input.get("email");
 
         Customer customer = new Customer();
         customer.setName(name);
