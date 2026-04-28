@@ -240,6 +240,8 @@ src/
 │   │   │   └── CustomerAlreadyExistException.java
 │   │   ├── models/
 │   │   │   └── Customer.java                    -- JPA entity
+│   │   ├── dto/
+│   │   │   └── CustomerRequest.java             -- POJO for HTTP request deserialization
 │   │   ├── storage/
 │   │   │   └── CustomerRepository.java          -- Spring Data JPA repository
 │   │   └── tasks/
