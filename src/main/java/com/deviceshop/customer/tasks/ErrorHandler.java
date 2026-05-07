@@ -23,18 +23,21 @@ public class ErrorHandler implements TypedLambdaFunction<Map<String, Object>, Ma
     @Override
     public Map<String, Object> handleEvent(Map<String, String> headers, Map<String, Object> input, int instance) {
         if (input.containsKey(STACK)) {
-            var map = Utility.getInstance().stackTraceToMap(String.valueOf(input.get(STACK)));
-            log.info("{}", map);
+            var stackMap = Utility.getInstance().stackTraceToMap(String.valueOf(input.get(STACK)));
+            log.debug("Error stack: {}", stackMap);
         }
-        if (input.containsKey(STATUS) && input.containsKey(MESSAGE)) {
-            log.info("Error handler - status={} message={}", input.get(STATUS), input.get(MESSAGE));
-            Map<String, Object> error = new HashMap<>();
-            error.put(TYPE, ERROR);
-            error.put(STATUS, input.get(STATUS));
-            error.put(MESSAGE, input.get(MESSAGE));
-            return error;
-        } else {
+
+        if (!input.containsKey(STATUS) && !input.containsKey(MESSAGE)) {
             return Collections.emptyMap();
         }
+
+        log.info("Error handler - status={} message={}", input.get(STATUS), input.get(MESSAGE));
+
+        Map<String, Object> error = new HashMap<>();
+        error.put(TYPE, ERROR);
+        error.put(STATUS, input.get(STATUS));
+        error.put(MESSAGE, input.get(MESSAGE));
+        return error;
+
     }
 }

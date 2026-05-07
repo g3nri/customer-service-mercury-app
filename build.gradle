@@ -18,10 +18,13 @@ repositories {
 }
 
 ext {
-    mercuryVersion = '4.4.4'
+    // change the version if needed
+    mercuryVersion = '4.4.5'
 }
 
 dependencies {
+    compileOnly 'org.projectlombok:lombok:1.18.38'
+    annotationProcessor 'org.projectlombok:lombok:1.18.38'
     implementation "org.platformlambda:platform-core:${mercuryVersion}"
     implementation "org.platformlambda:rest-spring-3:${mercuryVersion}"
     implementation "org.platformlambda:event-script-engine:${mercuryVersion}"
@@ -33,6 +36,8 @@ dependencies {
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.10.5'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.10.5'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+    testCompileOnly 'org.projectlombok:lombok:1.18.38'
+    testAnnotationProcessor 'org.projectlombok:lombok:1.18.38'
 }
 
 test {
