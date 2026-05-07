@@ -34,23 +34,11 @@ tasks:
       - 'model.email -> email'
     process: 'v1.create.customer'
     output:
-      - 'result.id -> model.id'
-      - 'result.name -> model.name'
-      - 'result.email -> model.email'
-    description: 'Save customer'
-    execution: 'sequential'
-    next:
-      - 'v1.customer.response'
-
-  - input:
-      - 'model.id -> id'
-      - 'model.name -> name'
-      - 'model.email -> email'
-    process: 'v1.customer.response'
-    output:
-      - 'result -> output.body'
+      - 'result.id -> output.body.id'
+      - 'result.name -> output.body.name'
+      - 'result.email -> output.body.email'
       - 'int(201) -> output.status'
-    description: 'Build response'
+    description: 'Creating customer and saving to database'
     execution: 'end'
 
   - input:
