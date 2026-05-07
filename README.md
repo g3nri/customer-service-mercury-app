@@ -48,6 +48,13 @@ This service provides a simple customer management API with two operations: crea
 cd /path/to/mercury-composable
 mvn install -DskipTests
 ```
+*Note: change the version of Mercury to the one you built in `build.gradle` file
+
+**Build the application:**
+
+```bash
+./gradlew build
+```
 
 **Run the application:**
 

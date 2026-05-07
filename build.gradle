@@ -18,6 +18,7 @@ repositories {
 }
 
 ext {
+    // change the version if needed
     mercuryVersion = '4.4.5'
 }
 
